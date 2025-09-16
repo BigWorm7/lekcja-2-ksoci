@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView TextViewwynikrzutu;
     private TextView textViewWynikSumaryczny;
 
+    private int calasuma = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         textViewWynikSumaryczny = findViewById(R.id.textView3);
         TextViewwynikrzutu = findViewById(R.id.textView4);
 
-        int[] obrazki = new int[]{
+         int[] obrazki = new int[]{
 
                 R.drawable.k1,
                 R.drawable.k2,
@@ -52,12 +54,38 @@ public class MainActivity extends AppCompatActivity {
         };
 
         buttonRzuc.setOnClickListener(
+
                 new View.OnClickListener() {
+
                     @Override
                     public void onClick(View view) {
                         int[] rzuty = rzucWszystkimiKoscmi();
+
+                        int sumaa = 0;
+                        int liczba;
                         for (int i = 0; i < obrazyKosci.length; i++) {
                             obrazyKosci[i].setImageResource(obrazki[rzuty[i]]);
+                            //switch (obrazki[rzuty[i]]){
+                            //    case R.drawable.k1: liczba = 1;
+                            //}
+                        }
+                        int suma = sumaKosc(rzuty);
+                        calasuma += suma;
+                        TextViewwynikrzutu.setText("Wynik rzutu: "+ suma);
+                        textViewWynikSumaryczny.setText("Wynik gry: "+calasuma);
+                    }
+                }
+        );
+        buttonReset.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextViewwynikrzutu.setText("Wynik rzutu: 0");
+                        textViewWynikSumaryczny.setText("Wynik gry: 0");
+                        calasuma = 0;
+                        for (int i = 0; i < obrazyKosci.length; i++) {
+                            obrazyKosci[i].setImageResource(obrazki[6]);
+
                         }
                     }
                 }
@@ -72,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
             rzuty[i] = random.nextInt(5)+1;
         }
         return rzuty;
+    }
+    private int sumaKosc(int[] rzuty){
+        int s = 0;
+        for (int i = 0; i < rzuty.length; i++) {
+            s= s+rzuty[i];
+        }
+        return s;
     }
 
 }
